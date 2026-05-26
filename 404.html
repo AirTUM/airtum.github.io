@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // GitHub Pages SPA redirect: preserve the path and redirect to index.html
+      // so React Router can handle client-side routes like /projects, /impressum
+      var path = window.location.pathname;
+      sessionStorage.setItem('spa-redirect', path);
+      window.location.replace('/');
+    </script>
+  </head>
+  <body></body>
+</html>
