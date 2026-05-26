@@ -5,11 +5,13 @@ import HomePage from './pages/HomePage'
 import ProjectsPage from './pages/ProjectsPage'
 import ImpressumPage from './pages/ImpressumPage'
 import ProposalModal from './components/ProposalModal'
+import ScrollToTop from './components/ScrollToTop'
 import { ProposalModalProvider } from './context/ProposalModalContext'
 
 export default function App() {
   return (
     <ProposalModalProvider>
+      <ScrollToTop />
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
