@@ -56,6 +56,7 @@ export default function Navbar() {
           <img
             src={isDark ? '/logo-white.png' : '/logo-color.png'}
             alt="AirTUM"
+            className="nav-logo"
             style={{ height: '80px', width: 'auto', objectFit: 'contain' }}
           />
         </Link>

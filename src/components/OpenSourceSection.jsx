@@ -23,7 +23,7 @@ export default function OpenSourceSection() {
   return (
     <>
       {/* Open Source */}
-      <section id="opensource" style={{ padding: '88px 24px' }}>
+      <section id="opensource" className="section-mobile" style={{ padding: '88px 24px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           <motion.div {...fade(0)} style={{ marginBottom: '40px' }}>
@@ -119,7 +119,7 @@ export default function OpenSourceSection() {
       </section>
 
       {/* Join */}
-      <section id="join" style={{ padding: '72px 24px 100px' }}>
+      <section id="join" className="section-mobile" style={{ padding: '72px 24px 100px' }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
           <motion.div {...fade(0)} style={{ marginBottom: '40px' }}>
@@ -194,6 +194,7 @@ export default function OpenSourceSection() {
           {/* Propose a Project CTA — opens modal */}
           <motion.div
             {...fade(0.14)}
+            className="proposal-cta"
             style={{
               padding: '32px 36px',
               borderRadius: '16px',

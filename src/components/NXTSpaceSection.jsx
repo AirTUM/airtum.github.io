@@ -52,7 +52,7 @@ export default function NXTSpaceSection() {
   const [hovered, setHovered] = useState(null)
 
   return (
-    <section id="nxtspace" style={{ padding: '88px 24px', position: 'relative', overflow: 'hidden' }}>
+    <section id="nxtspace" className="section-mobile" style={{ padding: '88px 24px', position: 'relative', overflow: 'hidden' }}>
       {/* Dark background panel */}
       <div style={{
         position: 'absolute', inset: 0,

@@ -10,7 +10,7 @@ const fade = (delay = 0) => ({
 
 export default function ProjectSection() {
   return (
-    <section id="project" style={{ padding: '88px 24px' }}>
+    <section id="project" className="section-mobile" style={{ padding: '88px 24px' }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
 
         <motion.div {...fade(0)} style={{ marginBottom: '32px' }}>

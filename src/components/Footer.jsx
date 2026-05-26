@@ -40,7 +40,7 @@ export default function Footer() {
         display: 'flex', flexDirection: 'column', gap: '24px',
       }}>
         {/* Top row */}
-        <div style={{
+        <div className="footer-top" style={{
           display: 'flex', alignItems: 'center',
           justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px',
         }}>
@@ -49,6 +49,7 @@ export default function Footer() {
             <img
               src={isDark ? '/logo-white.png' : '/logo-color.png'}
               alt="AirTUM"
+              className="nav-logo"
               style={{
                 height: '60px', width: 'auto', objectFit: 'contain',
                 opacity: 0.55, transition: 'opacity 0.2s',
@@ -59,7 +60,7 @@ export default function Footer() {
           </Link>
 
           {/* Nav links */}
-          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+          <div className="footer-links" style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
             {footerLinks.map(link => (
               link.ext ? (
                 <a

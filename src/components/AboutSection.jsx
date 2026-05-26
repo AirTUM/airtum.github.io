@@ -33,7 +33,7 @@ export default function AboutSection() {
   const [active, setActive] = useState(null)
 
   return (
-    <section id="about" style={{ padding: '88px 24px', position: 'relative' }}>
+    <section id="about" className="section-mobile" style={{ padding: '88px 24px', position: 'relative' }}>
       <div style={{
         position: 'absolute', inset: 0,
         background: 'linear-gradient(180deg, transparent 0%, rgba(0,101,189,0.02) 50%, transparent 100%)',

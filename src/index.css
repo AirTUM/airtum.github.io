@@ -298,3 +298,30 @@
   border-radius: inherit;
   opacity: 0.4;
 }
+
+/* ─── Mobile responsive ──────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Navbar logo smaller on mobile */
+  .nav-logo { height: 52px !important; }
+
+  /* Section padding tighter on mobile */
+  .section-mobile { padding: 60px 20px !important; }
+
+  /* Footer: stack logo + links vertically */
+  .footer-top { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+  .footer-links { gap: 12px !important; flex-wrap: wrap !important; }
+
+  /* Proposal CTA banner: tighter padding */
+  .proposal-cta { padding: 24px 20px !important; }
+
+  /* Buttons: full width on very small screens */
+  .btn-stack-mobile { flex-direction: column !important; }
+  .btn-stack-mobile .btn-primary,
+  .btn-stack-mobile .btn-secondary { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  /* Even tighter on small phones */
+  .section-mobile { padding: 48px 16px !important; }
+  .proposal-cta { padding: 20px 16px !important; }
+}
