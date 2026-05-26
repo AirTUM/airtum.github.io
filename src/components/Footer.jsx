@@ -17,7 +17,7 @@ const legalLinks = [
 export default function Footer() {
   const year = new Date().getFullYear()
   const location = useLocation()
-  const isDark = location.pathname === '/projects' || location.pathname === '/impressum'
+  const isDark = location.pathname === '/projects'
 
   const bg = isDark ? 'rgba(10,15,26,0.95)' : 'rgba(255,255,255,0.6)'
   const border = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'

@@ -13,7 +13,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const location = useLocation()
-  const isDark = location.pathname === '/projects' || location.pathname === '/impressum'
+  const isDark = location.pathname === '/projects'
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 32)
