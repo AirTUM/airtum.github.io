@@ -1,166 +1,268 @@
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: (i = 0) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, delay: i * 0.15, ease: [0.25, 0.46, 0.45, 0.94] },
-  }),
-}
+const WORDS = ['Build.', 'Fly.', 'Iterate.', 'Share.']
 
-const statItems = [
-  { value: '1290mm', label: 'Wingspan' },
-  { value: '4+', label: 'Sensor Types' },
-  { value: '100%', label: 'Open Source' },
-  { value: 'ArduPlane', label: 'Autopilot' },
+const pillars = [
+  {
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+        <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+      </svg>
+    ),
+    title: 'Weekly Build Sessions',
+    sub: 'NxtSpace · Every week',
+  },
+  {
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+      </svg>
+    ),
+    title: 'Full-Stack Aerospace',
+    sub: 'CAD → Firmware → Flight',
+  },
+  {
+    icon: (
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+    ),
+    title: 'Open Source Everything',
+    sub: 'MIT License · GitHub',
+  },
 ]
 
 export default function HeroSection() {
+  const [wordIndex, setWordIndex] = useState(0)
+  const [visible, setVisible] = useState(true)
+  const [hovered, setHovered] = useState(null)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setVisible(false)
+      setTimeout(() => {
+        setWordIndex(i => (i + 1) % WORDS.length)
+        setVisible(true)
+      }, 280)
+    }, 2000)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 overflow-hidden"
-    >
-      {/* Radial glow behind content */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(0,245,255,0.07) 0%, transparent 70%)',
-        }}
-      />
+    <section style={{
+      minHeight: '100vh',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      padding: '110px 24px 72px',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* Dot grid */}
+      <div className="dot-grid" style={{ position: 'absolute', inset: 0, opacity: 0.45, pointerEvents: 'none' }} />
 
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 grid-bg opacity-60 pointer-events-none" />
+      {/* Ambient washes */}
+      <div style={{
+        position: 'absolute', top: '-15%', left: '-8%',
+        width: '55vw', height: '55vw', maxWidth: '650px', maxHeight: '650px',
+        background: 'radial-gradient(ellipse, rgba(0,101,189,0.07) 0%, transparent 65%)',
+        pointerEvents: 'none',
+      }} />
+      <div style={{
+        position: 'absolute', bottom: '-5%', right: '-5%',
+        width: '45vw', height: '45vw', maxWidth: '500px', maxHeight: '500px',
+        background: 'radial-gradient(ellipse, rgba(0,101,189,0.04) 0%, transparent 65%)',
+        pointerEvents: 'none',
+      }} />
 
-      <div className="relative z-10 max-w-5xl mx-auto text-center">
-        {/* Status badge */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={0}
-          className="inline-flex items-center gap-2 mb-8 px-4 py-2 glass border border-cyan-400/30 rounded-full"
-        >
-          <span className="w-2 h-2 rounded-full bg-cyan-400 pulse-cyan" />
-          <span className="text-xs font-semibold tracking-widest text-cyan-400 uppercase">
-            TUM Campus Heilbronn · BIE 4th Semester
-          </span>
-        </motion.div>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', width: '100%', position: 'relative', zIndex: 1 }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0,1fr) minmax(0,380px)',
+          gap: '56px',
+          alignItems: 'center',
+        }} className="hero-grid">
 
-        {/* Main headline */}
-        <motion.h1
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={1}
-          className="text-5xl sm:text-7xl lg:text-8xl font-black tracking-tight leading-none mb-6"
-        >
-          <span className="gradient-text-hero block">AirTUM</span>
-          <span className="text-white/90 text-4xl sm:text-5xl lg:text-6xl font-bold block mt-2">
-            Aerospace Community
-          </span>
-        </motion.h1>
-
-        {/* Subtitle */}
-        <motion.p
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={2}
-          className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed"
-        >
-          Build. Fly. Analyze.{' '}
-          <span className="text-slate-300">
-            The home for autonomous UAV developers at TUM Campus Heilbronn.
-          </span>
-        </motion.p>
-
-        {/* CTA Buttons */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={3}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20"
-        >
-          {/* Primary CTA */}
-          <a
-            href="#join"
-            className="group relative px-8 py-4 rounded-2xl font-semibold text-base overflow-hidden transition-all duration-300"
-            style={{
-              background: 'linear-gradient(135deg, rgba(0,245,255,0.2), rgba(0,128,255,0.2))',
-              border: '1px solid rgba(0,245,255,0.4)',
-            }}
-          >
-            <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{
-                background: 'linear-gradient(135deg, rgba(0,245,255,0.3), rgba(0,128,255,0.3))',
-              }}
-            />
-            <span className="relative flex items-center gap-2 text-cyan-300 group-hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              Join the Community
-            </span>
-          </a>
-
-          {/* Secondary CTA */}
-          <a
-            href="#project"
-            className="group px-8 py-4 rounded-2xl font-semibold text-base glass border border-white/10 hover:border-magenta-400/40 transition-all duration-300"
-            style={{ '--tw-border-opacity': 1 }}
-          >
-            <span className="flex items-center gap-2 text-slate-300 group-hover:text-white transition-colors">
-              <svg className="w-5 h-5 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
-              </svg>
-              Explore Our Flagship Project
-            </span>
-          </a>
-        </motion.div>
-
-        {/* Stats row */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          custom={4}
-          className="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto"
-        >
-          {statItems.map((stat, i) => (
+          {/* Left */}
+          <div>
             <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.8 + i * 0.1, duration: 0.5 }}
-              className="glass rounded-xl p-4 text-center border border-white/10 hover:border-cyan-400/30 transition-all duration-300"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              style={{ marginBottom: '24px' }}
             >
-              <div className="text-xl font-black gradient-text-cyan">{stat.value}</div>
-              <div className="text-xs text-slate-500 mt-1 font-medium">{stat.label}</div>
+              <span className="pill">
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#0065BD', display: 'inline-block', flexShrink: 0 }} />
+                TUM Campus Heilbronn · NxtSpace
+              </span>
             </motion.div>
-          ))}
-        </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <h1 style={{
+                fontSize: 'clamp(2.8rem, 6.5vw, 5rem)',
+                fontWeight: 900,
+                lineHeight: 1.04,
+                letterSpacing: '-0.038em',
+                color: '#0d1117',
+                margin: 0,
+              }}>
+                The plane builders
+                <br />
+                at <span className="text-gradient">TUM Heilbronn.</span>
+              </h1>
+
+              {/* Animated word */}
+              <div style={{
+                fontSize: 'clamp(2.8rem, 6.5vw, 5rem)',
+                fontWeight: 900,
+                lineHeight: 1.04,
+                letterSpacing: '-0.038em',
+                height: 'clamp(3.2rem, 7.5vw, 5.8rem)',
+                display: 'flex',
+                alignItems: 'center',
+                marginBottom: '28px',
+              }}>
+                <span style={{
+                  color: '#0065BD',
+                  opacity: visible ? 1 : 0,
+                  transform: visible ? 'translateY(0)' : 'translateY(6px)',
+                  transition: 'opacity 0.25s ease, transform 0.25s ease',
+                  display: 'inline-block',
+                }}>
+                  {WORDS[wordIndex]}
+                </span>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
+              style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}
+            >
+              <a href="#join" className="btn-primary">Join the Community</a>
+              <a href="/projects" className="btn-secondary">See Projects</a>
+            </motion.div>
+          </div>
+
+          {/* Right — interactive card */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.22, ease: [0.22, 1, 0.36, 1] }}
+            className="glass-card hero-card"
+            style={{ padding: '24px' }}
+          >
+            {/* Header */}
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: '10px',
+              marginBottom: '20px', paddingBottom: '16px',
+              borderBottom: '1px solid rgba(0,0,0,0.06)',
+            }}>
+              <div style={{
+                width: '34px', height: '34px', borderRadius: '8px',
+                background: 'rgba(0,101,189,0.06)', border: '1px solid rgba(0,101,189,0.12)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                overflow: 'hidden', padding: '4px',
+              }}>
+                <img src="/logo-color.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+              </div>
+              <div>
+                <div style={{ fontSize: '0.83rem', fontWeight: 700, color: '#0d1117', letterSpacing: '-0.01em' }}>AirTUM</div>
+                <div style={{ fontSize: '0.70rem', color: '#9aa5b4', marginTop: '1px' }}>Student Club · Open to all</div>
+              </div>
+            </div>
+
+            {/* Pillars */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '18px' }}>
+              {pillars.map((p, i) => (
+                <div
+                  key={p.title}
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{
+                    display: 'flex', gap: '10px', alignItems: 'center',
+                    padding: '10px 10px', borderRadius: '8px',
+                    background: hovered === i ? 'rgba(0,101,189,0.05)' : 'transparent',
+                    transition: 'background 0.15s',
+                    cursor: 'default',
+                  }}
+                >
+                  <div style={{
+                    width: '28px', height: '28px', borderRadius: '6px',
+                    background: hovered === i ? 'rgba(0,101,189,0.12)' : 'rgba(0,101,189,0.06)',
+                    border: `1px solid ${hovered === i ? 'rgba(0,101,189,0.2)' : 'rgba(0,101,189,0.10)'}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0, color: '#0065BD',
+                    transition: 'background 0.15s, border-color 0.15s',
+                  }}>
+                    {p.icon}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '0.80rem', fontWeight: 600, color: '#0d1117', letterSpacing: '-0.01em' }}>{p.title}</div>
+                    <div style={{ fontSize: '0.70rem', color: '#9aa5b4', marginTop: '1px' }}>{p.sub}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div style={{
+              paddingTop: '14px', borderTop: '1px solid rgba(0,0,0,0.06)',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            }}>
+              <span style={{ fontSize: '0.70rem', color: '#9aa5b4' }}>Heilbronn, Germany</span>
+              <a
+                href="#join"
+                style={{
+                  fontSize: '0.73rem', fontWeight: 600, color: '#0065BD',
+                  textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '4px',
+                  transition: 'gap 0.15s',
+                }}
+                onMouseEnter={e => e.currentTarget.style.gap = '7px'}
+                onMouseLeave={e => e.currentTarget.style.gap = '4px'}
+              >
+                Get involved
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </motion.div>
+        </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll cue */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2, duration: 1 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        transition={{ delay: 1.8 }}
+        style={{
+          position: 'absolute', bottom: '24px', left: '50%', transform: 'translateX(-50%)',
+          display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px',
+        }}
       >
-        <span className="text-xs text-slate-600 tracking-widest uppercase">Scroll</span>
+        <span style={{ fontSize: '0.60rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: '#c0c8d4', fontWeight: 600 }}>scroll</span>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-5 h-8 rounded-full border border-slate-700 flex items-start justify-center pt-1.5"
-        >
-          <div className="w-1 h-2 rounded-full bg-cyan-400/60" />
-        </motion.div>
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ width: '1px', height: '28px', background: 'linear-gradient(to bottom, rgba(0,101,189,0.35), transparent)' }}
+        />
       </motion.div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .hero-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
+          .hero-card { display: none !important; }
+        }
+      `}</style>
     </section>
   )
 }

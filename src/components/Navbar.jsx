@@ -1,147 +1,211 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Link, useLocation } from 'react-router-dom'
 
-const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Project', href: '#project' },
-  { label: 'Open Source', href: '#opensource' },
-  { label: 'Join Us', href: '#join' },
+const links = [
+  { label: 'Community', href: '/#about' },
+  { label: 'NXTSpace', href: '/#nxtspace' },
+  { label: 'Open Source', href: '/#opensource' },
+  { label: 'Join', href: '/#join' },
 ]
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [open, setOpen] = useState(false)
+  const location = useLocation()
+  const isDark = location.pathname === '/projects' || location.pathname === '/impressum'
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40)
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    const fn = () => setScrolled(window.scrollY > 32)
+    window.addEventListener('scroll', fn, { passive: true })
+    return () => window.removeEventListener('scroll', fn)
   }, [])
+
+  useEffect(() => {
+    setScrolled(false)
+    setOpen(false)
+  }, [location.pathname])
+
+  const textColor = isDark ? '#4a6070' : '#4a5568'
+  const textHover = isDark ? '#e2e8f0' : '#0065BD'
+  const bgScrolled = isDark ? 'rgba(10,15,26,0.92)' : 'rgba(245,246,248,0.88)'
+  const borderScrolled = isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)'
+  const mobileBg = isDark ? 'rgba(10,15,26,0.97)' : 'rgba(245,246,248,0.97)'
 
   return (
     <motion.nav
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.7, ease: 'easeOut' }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'py-3 mx-4 mt-3 rounded-2xl glass glow-cyan'
-          : 'py-5 bg-transparent'
-      }`}
+      initial={{ opacity: 0, y: -12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: 'easeOut' }}
+      style={{
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+        transition: 'all 0.25s ease',
+        padding: scrolled ? '6px 24px' : '12px 24px',
+        background: scrolled ? bgScrolled : 'transparent',
+        backdropFilter: scrolled ? 'blur(24px) saturate(1.6)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(24px) saturate(1.6)' : 'none',
+        borderBottom: scrolled ? `1px solid ${borderScrolled}` : '1px solid transparent',
+      }}
     >
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+      <div style={{
+        maxWidth: '1100px', margin: '0 auto',
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      }}>
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group">
-          <div className="relative w-9 h-9">
-            <div className="absolute inset-0 rounded-lg bg-cyan-400/20 border border-cyan-400/40 group-hover:border-cyan-400/80 transition-all duration-300" />
-            <svg
-              viewBox="0 0 36 36"
-              className="w-9 h-9 p-1.5"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              {/* Stylized plane/wing icon */}
-              <path
-                d="M4 18 L18 6 L32 18 L18 14 Z"
-                stroke="#00f5ff"
-                strokeWidth="1.5"
-                fill="rgba(0,245,255,0.1)"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M18 14 L18 30"
-                stroke="#00f5ff"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-              <path
-                d="M12 22 L24 22"
-                stroke="#ff00ff"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
-          </div>
-          <span className="font-bold text-xl tracking-wider">
-            <span className="gradient-text-cyan">Air</span>
-            <span className="text-white">TUM</span>
-          </span>
-        </a>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <img
+            src={isDark ? '/logo-white.png' : '/logo-color.png'}
+            alt="AirTUM"
+            style={{ height: '80px', width: 'auto', objectFit: 'contain' }}
+          />
+        </Link>
 
-        {/* Desktop nav links */}
-        <div className="hidden md:flex items-center gap-1">
-          {navLinks.map((link) => (
+        {/* Desktop links */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '2px' }} className="hidden md:flex">
+          {links.map(l => (
             <a
-              key={link.label}
-              href={link.href}
-              className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-cyan-400 rounded-lg hover:bg-cyan-400/10 transition-all duration-200"
+              key={l.label}
+              href={l.href}
+              style={{
+                padding: '6px 14px', fontSize: '0.83rem', fontWeight: 500,
+                color: textColor, textDecoration: 'none', borderRadius: '6px',
+                letterSpacing: '0.01em', transition: 'color 0.15s, background 0.15s',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.color = textHover
+                e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,101,189,0.06)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.color = textColor
+                e.currentTarget.style.background = 'transparent'
+              }}
             >
-              {link.label}
+              {l.label}
             </a>
           ))}
-        </div>
 
-        {/* CTA button */}
-        <div className="hidden md:flex items-center gap-3">
+          {/* GitHub as plain link */}
           <a
             href="https://github.com/airtum"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-cyan-400 border border-cyan-400/40 rounded-xl hover:bg-cyan-400/10 hover:border-cyan-400/80 transition-all duration-300"
+            style={{
+              padding: '6px 14px', fontSize: '0.83rem', fontWeight: 500,
+              color: textColor, textDecoration: 'none', borderRadius: '6px',
+              letterSpacing: '0.01em', transition: 'color 0.15s, background 0.15s',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.color = textHover
+              e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,101,189,0.06)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.color = textColor
+              e.currentTarget.style.background = 'transparent'
+            }}
           >
-            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-            </svg>
             GitHub
           </a>
+
+          {/* Projects as primary CTA */}
+          <Link
+            to="/projects"
+            style={{
+              marginLeft: '8px', padding: '7px 16px',
+              fontSize: '0.83rem', fontWeight: 600,
+              color: '#ffffff', textDecoration: 'none',
+              borderRadius: '7px', background: '#0065BD',
+              letterSpacing: '0.01em',
+              transition: 'background 0.15s, box-shadow 0.15s, transform 0.12s',
+              boxShadow: '0 2px 8px rgba(0,101,189,0.22)',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = '#004f96'
+              e.currentTarget.style.transform = 'translateY(-1px)'
+              e.currentTarget.style.boxShadow = '0 4px 14px rgba(0,101,189,0.32)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = '#0065BD'
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,101,189,0.22)'
+            }}
+          >
+            Projects
+          </Link>
         </div>
 
-        {/* Mobile hamburger */}
+        {/* Mobile toggle */}
         <button
-          className="md:hidden p-2 rounded-lg text-slate-300 hover:text-cyan-400 hover:bg-cyan-400/10 transition-all"
-          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden"
+          onClick={() => setOpen(!open)}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            padding: '6px', color: textColor, borderRadius: '6px',
+            transition: 'background 0.15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'none'}
           aria-label="Toggle menu"
         >
-          <div className="w-5 h-4 flex flex-col justify-between">
-            <span className={`block h-0.5 bg-current transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
-            <span className={`block h-0.5 bg-current transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
-            <span className={`block h-0.5 bg-current transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
-          </div>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+            {open ? (
+              <><line x1="3" y1="3" x2="15" y2="15" /><line x1="15" y1="3" x2="3" y2="15" /></>
+            ) : (
+              <><line x1="2" y1="5" x2="16" y2="5" /><line x1="2" y1="9" x2="16" y2="9" /><line x1="2" y1="13" x2="16" y2="13" /></>
+            )}
+          </svg>
         </button>
       </div>
 
       {/* Mobile menu */}
       <AnimatePresence>
-        {menuOpen && (
+        {open && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden overflow-hidden"
+            style={{
+              overflow: 'hidden',
+              borderTop: `1px solid ${borderScrolled}`,
+              marginTop: '10px',
+              background: mobileBg,
+              backdropFilter: 'blur(20px)',
+            }}
           >
-            <div className="px-6 pb-4 pt-2 flex flex-col gap-1 border-t border-white/10 mt-3">
-              {navLinks.map((link) => (
+            <div style={{ padding: '12px 0 16px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              {links.map(l => (
                 <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="px-4 py-3 text-sm font-medium text-slate-300 hover:text-cyan-400 rounded-lg hover:bg-cyan-400/10 transition-all duration-200"
+                  key={l.label}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  style={{
+                    padding: '10px 4px', fontSize: '0.9rem',
+                    color: textColor, textDecoration: 'none',
+                    letterSpacing: '0.01em', fontWeight: 500, transition: 'color 0.15s',
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.color = textHover}
+                  onMouseLeave={e => e.currentTarget.style.color = textColor}
                 >
-                  {link.label}
+                  {l.label}
                 </a>
               ))}
               <a
                 href="https://github.com/airtum"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-2 flex items-center gap-2 px-4 py-3 text-sm font-semibold text-cyan-400 border border-cyan-400/40 rounded-xl hover:bg-cyan-400/10 transition-all"
+                target="_blank" rel="noopener noreferrer"
+                style={{ padding: '10px 4px', fontSize: '0.9rem', color: textColor, textDecoration: 'none', fontWeight: 500 }}
               >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
-                </svg>
                 GitHub
               </a>
+              <Link
+                to="/projects"
+                onClick={() => setOpen(false)}
+                style={{
+                  marginTop: '8px', padding: '10px 4px',
+                  fontSize: '0.9rem', color: '#0065BD',
+                  textDecoration: 'none', fontWeight: 700,
+                }}
+              >
+                Projects
+              </Link>
             </div>
           </motion.div>
         )}
