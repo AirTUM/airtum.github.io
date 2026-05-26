@@ -12,7 +12,7 @@ const pillars = [
       </svg>
     ),
     title: 'Weekly Build Sessions',
-    sub: 'NxtSpace · Every week',
+    sub: 'NXTSpace · Every week',
   },
   {
     icon: (
@@ -96,7 +96,7 @@ export default function HeroSection() {
             >
               <span className="pill">
                 <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#0065BD', display: 'inline-block', flexShrink: 0 }} />
-                TUM Campus Heilbronn · NxtSpace
+                TUM Campus Heilbronn · NXTSpace
               </span>
             </motion.div>
 
@@ -115,7 +115,7 @@ export default function HeroSection() {
               }}>
                 The plane builders
                 <br />
-                at <span className="text-gradient">TUM Heilbronn.</span>
+                at <span className="text-gradient">TUM Campus Heilbronn.</span>
               </h1>
 
               {/* Animated word */}
